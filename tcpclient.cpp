@@ -626,6 +626,7 @@ void TcpClient::handleblind(RecvStream* prs){
 void TcpClient::handleAuthentication(RecvStream* prs)
 {
     Msg msg;
+    //
     PlatformAck pa;
     pa.header.fromStream(prs->stream);
     pa.serialNumber=pa.header.msgSerialNumber;
