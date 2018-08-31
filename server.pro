@@ -33,3 +33,6 @@ FORMS    += mainwindow.ui
 
 RC_FILE += \
     server.rc
+
+RESOURCES += \
+    server.qrc

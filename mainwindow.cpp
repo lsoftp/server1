@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableWidget->setHorizontalHeaderLabels(sl);
     ui->tableWidget->setColumnWidth(3,1600);
     ui->checkBox_2->setCheckState(Qt::Checked);
-
+    on_hide_clicked();
 }
 
 MainWindow::~MainWindow()
@@ -81,6 +81,14 @@ void MainWindow::Table2ExcelByTxt(QTableWidget *table)
         file.close();
     }
 }
+
+void MainWindow::closeEvent(QCloseEvent *e)
+{
+    e->ignore();
+    this->hide();
+        mSysTrayIcon->show();
+
+}
 void MainWindow::on_pushButton_clicked()
 {
     Table2ExcelByTxt(ui->tableWidget);
@@ -117,4 +125,76 @@ void MainWindow::on_action14544916843_triggered()
 {
     static MYWORD id=0;
 
+}
+
+void MainWindow::on_hide_clicked()
+{
+    //隐藏主窗口
+
+
+    //新建QSystemTrayIcon对象
+    mSysTrayIcon = new QSystemTrayIcon(this);
+    //新建托盘要显示的icon
+    QIcon icon = QIcon(":/808.ico");
+    //将icon设到QSystemTrayIcon对象中
+    mSysTrayIcon->setIcon(icon);
+    //当鼠标移动到托盘上的图标时，会显示此处设置的内容
+    mSysTrayIcon->setToolTip(QObject::trUtf8("测试系统托盘图标"));
+    //给QSystemTrayIcon添加槽函数
+    connect(mSysTrayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this,SLOT(on_activatedSysTrayIcon(QSystemTrayIcon::ActivationReason)));
+
+    //建立托盘操作的菜单
+    createActions();
+    createMenu();
+    //在系统托盘显示此对象
+
+}
+
+void MainWindow::on_activatedSysTrayIcon(QSystemTrayIcon::ActivationReason reason)
+{
+    switch(reason){
+    case QSystemTrayIcon::Trigger:
+        mSysTrayIcon->showMessage(QObject::trUtf8("Message Title"),
+                                  QObject::trUtf8("欢迎使用此程序"),
+                                  QSystemTrayIcon::Information,
+                                  1000);
+        break;
+    case QSystemTrayIcon::DoubleClick:
+        this->show();
+        break;
+    default:
+        break;
+    }
+}
+
+void MainWindow::createActions()
+{
+    mShowMainAction = new QAction(QObject::trUtf8("显示主界面"),this);
+    connect(mShowMainAction,SIGNAL(triggered()),this,SLOT(on_showMainAction()));
+
+    mExitAppAction = new QAction(QObject::trUtf8("退出"),this);
+    connect(mExitAppAction,SIGNAL(triggered()),this,SLOT(on_exitAppAction()));
+
+}
+
+void MainWindow::createMenu()
+{
+    mMenu = new QMenu(this);
+    mMenu->addAction(mShowMainAction);
+
+    mMenu->addSeparator();
+
+    mMenu->addAction(mExitAppAction);
+
+    mSysTrayIcon->setContextMenu(mMenu);
+}
+
+void MainWindow::on_showMainAction()
+{
+    this->show();
+}
+
+void MainWindow::on_exitAppAction()
+{
+    exit(0);
 }
