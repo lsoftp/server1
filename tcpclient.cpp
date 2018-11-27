@@ -152,7 +152,8 @@ int TcpClient::getMsgFromBuf()
                proxy_socket->write(qb);
             //99999999999999999999999999999
             //r =0;
-            toOriginalMsg(recvstream.stream,recvstream.size, rs.stream,&rs.size);
+            int y=toOriginalMsg(recvstream.stream,recvstream.size, rs.stream,&rs.size);
+            if(y!=0) return -1;
             int j = checkCode(rs.stream,rs.size);
             if( j < 0)
             {

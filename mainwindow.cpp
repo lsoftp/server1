@@ -26,14 +26,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::addrow(string s1, string s2,string s3)
 {
-    static int t=0;
-    ui->tableWidget->setItem(t,0,new QTableWidgetItem(s1.c_str()));
-    ui->tableWidget->setItem(t,1,new QTableWidgetItem(s2.c_str()));
-    ui->tableWidget->setItem(t,2,new QTableWidgetItem( QTime::currentTime().toString("hh:mm:ss.zzz")));
+    static unsigned int t=0,t1;
+    t1=t%100000;
+    ui->tableWidget->setItem(t1,0,new QTableWidgetItem(s1.c_str()));
+    ui->tableWidget->setItem(t1,1,new QTableWidgetItem(s2.c_str()));
+    ui->tableWidget->setItem(t1,2,new QTableWidgetItem( QTime::currentTime().toString("hh:mm:ss.zzz")));
 
-    ui->tableWidget->setItem(t,3,new QTableWidgetItem(s3.c_str()));
-ui->tableWidget->setCurrentCell(t,0);
-    rownb=t;
+    ui->tableWidget->setItem(t1,3,new QTableWidgetItem(s3.c_str()));
+ui->tableWidget->setCurrentCell(t1,0);
+    rownb=t1;
     t++;
 
 }

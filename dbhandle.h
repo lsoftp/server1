@@ -60,8 +60,9 @@ public:
    {
         QNetworkAccessManager qnam;
        QNetworkRequest request;
-       request.setUrl(QUrl(QString().sprintf("http://api.map.baidu.com/geoconv/v1/?coords=%f,%f&from=1&to=5&ak=dg05Yew93CtRGyk9y96zwaRDGrCi0Y7f",j,w)));
-        QNetworkReply* reply = qnam.get(request);
+       //request.setUrl(QUrl(QString().sprintf("http://api.map.baidu.com/geoconv/v1/?coords=%f,%f&from=1&to=5&ak=dg05Yew93CtRGyk9y96zwaRDGrCi0Y7f",j,w)));
+       request.setUrl(QUrl(QString("http://api.map.baidu.com/geoconv/v1/?coords=%1,%2&from=1&to=5&ak=dg05Yew93CtRGyk9y96zwaRDGrCi0Y7f").arg(j).arg(w)));
+       QNetworkReply* reply = qnam.get(request);
         QEventLoop eventLoop;
         connect(reply, &QNetworkReply::finished, &eventLoop, &QEventLoop::quit);
         eventLoop.exec(QEventLoop::ExcludeUserInputEvents);
