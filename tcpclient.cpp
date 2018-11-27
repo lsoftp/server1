@@ -762,8 +762,8 @@ void TcpClient::slot_readdata()
 
 void TcpClient::getmsg_send()
 {
-     Msg *pmsg=NULL;
-     int haha;
+//     Msg *pmsg=NULL;
+     int     haha;
      //slot_readdata();
      while(getMsgFromBuf()!=0)
      {
